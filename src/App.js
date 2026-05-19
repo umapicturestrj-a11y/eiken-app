@@ -2713,9 +2713,9 @@ function SpeechQuestion({ item, qNo, total, onNext }) {
       setIsCorrect(checkSpeech(text, item));
       setStatus('done');
     };
-    rec.onerror = () => {
+    rec.onerror = (e) => {
       resultGot = true;
-      setRecognized('認識できませんでした');
+      setRecognized('エラー: ' + (e.error || 'unknown'));
       setIsCorrect(false);
       setStatus('done');
     };
