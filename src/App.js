@@ -2703,16 +2703,26 @@ function SpeechQuestion({ item, qNo, total, onNext }) {
     recRef.current = rec;
     setStatus('recording');
     setRecognized('');
+    let resultGot = false;
     rec.onresult = (e) => {
+      resultGot = true;
       const text = e.results[0][0].transcript;
       setRecognized(text);
       setIsCorrect(checkSpeech(text, item));
       setStatus('done');
     };
     rec.onerror = () => {
+      resultGot = true;
       setRecognized('認識できませんでした');
       setIsCorrect(false);
       setStatus('done');
+    };
+    rec.onend = () => {
+      if (!resultGot) {
+        setRecognized('認識できませんでした');
+        setIsCorrect(false);
+        setStatus('done');
+      }
     };
     rec.continuous = false;
     rec.maxAlternatives = 1;
@@ -3172,13 +3182,15 @@ export default function App() {
     <div style={s.root}>
       {screen === 'start' && <StartScreen onStart={() => initGame()} />}
       {screen === 'part1' && q1.length > 0 && (
-        <QuizQuestion
-          key={`q1-${idx}`}
-          item={q1[idx]}
-          qNo={idx + 1}
-          total={q1.length}
-          onNext={handleQ1}
-        />
+        <div style={{ width: '100%', display: 'flex', justifyContent: 'center', alignSelf: 'flex-start', paddingTop: 8 }}>
+          <QuizQuestion
+            key={`q1-${idx}`}
+            item={q1[idx]}
+            qNo={idx + 1}
+            total={q1.length}
+            onNext={handleQ1}
+          />
+        </div>
       )}
       {screen === 'mid' && (
         <MidScreen
@@ -3190,13 +3202,15 @@ export default function App() {
         />
       )}
       {screen === 'part2' && q2.length > 0 && (
-        <SpeechQuestion
-          key={`q2-${idx}`}
-          item={q2[idx]}
-          qNo={idx + 1}
-          total={q2.length}
-          onNext={handleQ2}
-        />
+        <div style={{ width: '100%', display: 'flex', justifyContent: 'center', alignSelf: 'flex-start', paddingTop: 8 }}>
+          <SpeechQuestion
+            key={`q2-${idx}`}
+            item={q2[idx]}
+            qNo={idx + 1}
+            total={q2.length}
+            onNext={handleQ2}
+          />
+        </div>
       )}
       {screen === 'result' && (
         <ResultScreen
