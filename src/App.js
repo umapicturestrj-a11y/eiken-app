@@ -2699,14 +2699,16 @@ function SpeechQuestion({ item, qNo, total, onNext }) {
     const SR = window.SpeechRecognition || window.webkitSpeechRecognition;
     const rec = new SR();
     rec.lang = 'en-US';
-    rec.interimResults = false;
+    rec.interimResults = true;
     recRef.current = rec;
     setStatus('recording');
     setRecognized('');
     let resultGot = false;
     rec.onresult = (e) => {
+      const result = e.results[e.results.length - 1];
+      if (!result.isFinal) return;
       resultGot = true;
-      const text = e.results[0][0].transcript;
+      const text = result[0].transcript;
       setRecognized(text);
       setIsCorrect(checkSpeech(text, item));
       setStatus('done');
