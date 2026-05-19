@@ -8,7 +8,7 @@ const QUIZ_POOL = [
     id: 1,
     word: 'ability',
     pos: '名詞',
-    correct: '能力',
+    correct: '能力'
     wrongs: ['感情', '経験', '習慣'],
   },
   {
@@ -2714,7 +2714,10 @@ function SpeechQuestion({ item, qNo, total, onNext }) {
       setIsCorrect(false);
       setStatus('done');
     };
+    rec.continuous = false;
+    rec.maxAlternatives = 1;
     rec.start();
+    setTimeout(() => { try { rec.stop(); } catch(e) {} }, 5000);
   }
 
   function stopRec() {
@@ -2765,7 +2768,7 @@ function SpeechQuestion({ item, qNo, total, onNext }) {
         <div style={s.micArea}>
           {status === 'idle' && (
             <button style={s.micBtn} onClick={startRec}>
-              🎤 録音開始
+              🎤 回答する
             </button>
           )}
           {status === 'recording' && (
@@ -2778,7 +2781,7 @@ function SpeechQuestion({ item, qNo, total, onNext }) {
                 }}
                 onClick={stopRec}
               >
-                ⏹️ 録音停止
+                ⏹️ 止める
               </button>
               <div style={{ color: '#21CBF3', fontWeight: 700, fontSize: 14 }}>
                 録音中...
