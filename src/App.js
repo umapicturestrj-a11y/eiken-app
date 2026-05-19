@@ -2717,7 +2717,9 @@ function SpeechQuestion({ item, qNo, total, onNext }) {
       setIsCorrect(false);
       setStatus('done');
     };
+    let _safetyTimer;
     rec.onend = () => {
+      clearTimeout(_safetyTimer);
       if (!resultGot) {
         setRecognized('認識できませんでした');
         setIsCorrect(false);
@@ -2727,7 +2729,7 @@ function SpeechQuestion({ item, qNo, total, onNext }) {
     rec.continuous = false;
     rec.maxAlternatives = 1;
     rec.start();
-    setTimeout(() => { try { rec.stop(); } catch(e) {} }, 5000);
+    _safetyTimer = setTimeout(() => { if (!resultGot) { try { rec.stop(); } catch(e) {} } }, 15000);
   }
 
   function stopRec() {
