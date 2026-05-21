@@ -7,7 +7,7 @@ const QUIZ_POOL = [
   {
     id: 1,
     word: 'ability',
-    pos: '名詞'
+    pos: '名詞',
     correct: '能力',
     wrongs: ['感情', '経験', '習慣'],
   },
