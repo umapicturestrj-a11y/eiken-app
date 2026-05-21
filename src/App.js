@@ -7,7 +7,7 @@ const QUIZ_POOL = [
   {
     id: 1,
     word: 'ability',
-    pos: '名詞',
+    pos: '名詞'
     correct: '能力',
     wrongs: ['感情', '経験', '習慣'],
   },
@@ -3940,7 +3940,7 @@ function StartScreen({ onStart }) {
           毎回ランダムな{QUESTIONS_PER_PART * 2}問・{MAX_SCORE}点満点！
           <br />
           <span style={{ fontSize: 11, opacity: 0.7 }}>
-            問題プール：語彙280語 ＋ 発音120語
+            問題プール：語彙422語 ＋ 発音120語
           </span>
         </p>
         <div style={s.infoRow}>
